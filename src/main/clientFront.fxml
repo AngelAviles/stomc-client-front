@@ -5,62 +5,84 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.ClientFrontController">
+<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/11.0.2"
+          xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.ClientFrontController">
     <columnConstraints>
-        <ColumnConstraints />
+        <ColumnConstraints/>
     </columnConstraints>
     <rowConstraints>
-        <RowConstraints />
+        <RowConstraints/>
     </rowConstraints>
     <children>
         <Pane prefHeight="699.0" prefWidth="1056.0" style="-fx-background-color: #FFFFFF;">
             <children>
-                <Button fx:id="newTurnCajaButton" layoutX="227.0" layoutY="352.0" mnemonicParsing="false" onAction="#didClickNewTurnCajaButton" prefHeight="65.0" prefWidth="230.0" style="-fx-background-color: #0078D7; -fx-background-radius: 2em;" text="Caja" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="30.0" />
-               </font></Button>
-                <Label alignment="CENTER" layoutX="351.0" layoutY="245.0" prefHeight="53.0" prefWidth="230.0" text="Nuevo Turno" textAlignment="CENTER" wrapText="true">
+                <Button fx:id="newTurnCajaButton" layoutX="227.0" layoutY="352.0" mnemonicParsing="false"
+                        onAction="#didClickNewTurnCajaButton" prefHeight="65.0" prefWidth="230.0"
+                        style="-fx-background-color: #0078D7; -fx-background-radius: 2em;" text="Caja" textFill="WHITE">
                     <font>
-                        <Font name="System Bold" size="36.0" />
+                        <Font name="System Bold" size="30.0"/>
+                    </font>
+                </Button>
+                <Label alignment="CENTER" layoutX="351.0" layoutY="245.0" prefHeight="53.0" prefWidth="230.0"
+                       text="Nuevo Turno" textAlignment="CENTER" wrapText="true">
+                    <font>
+                        <Font name="System Bold" size="36.0"/>
                     </font>
                 </Label>
-                <AnchorPane layoutY="-3.0" prefHeight="707.0" prefWidth="38.0" style="-fx-background-color: #0063B1;" />
-                <AnchorPane layoutX="38.0" layoutY="-4.0" prefHeight="707.0" prefWidth="154.0" style="-fx-background-color: #0078D7;" />
-                <Label fx:id="nameLabel" alignment="CENTER" layoutX="327.0" layoutY="15.0" prefHeight="70.0" prefWidth="593.0" text="Turnero OOMAPAS" textAlignment="CENTER">
+                <AnchorPane layoutY="-3.0" prefHeight="707.0" prefWidth="38.0" style="-fx-background-color: #0063B1;"/>
+                <AnchorPane layoutX="38.0" layoutY="-4.0" prefHeight="707.0" prefWidth="154.0"
+                            style="-fx-background-color: #0078D7;"/>
+                <Label alignment="CENTER" layoutX="327.0" layoutY="15.0" prefHeight="70.0" prefWidth="593.0"
+                       text="Turnero OOMAPAS" textAlignment="CENTER">
                     <font>
-                        <Font size="48.0" />
+                        <Font size="48.0"/>
                     </font>
                 </Label>
-                <Line endX="763.0" layoutX="293.0" layoutY="84.0" opacity="0.5" startX="-100.0" />
-                <Line endX="100.0" endY="82.0" layoutX="641.0" layoutY="418.0" opacity="0.5" startX="100.0" startY="-210.0" />
-                <Label fx:id="dateLabel" alignment="CENTER" layoutX="207.0" layoutY="598.0" prefHeight="35.0" prefWidth="833.0" text="Martes 23 de Febrero del 2021" textAlignment="CENTER">
+                <Line endX="763.0" layoutX="293.0" layoutY="84.0" opacity="0.5" startX="-100.0"/>
+                <Line endX="100.0" endY="82.0" layoutX="641.0" layoutY="418.0" opacity="0.5" startX="100.0"
+                      startY="-210.0"/>
+                <Label fx:id="dateLabel" alignment="CENTER" layoutX="207.0" layoutY="598.0" prefHeight="35.0"
+                       prefWidth="833.0" text="Martes 23 de Febrero del 2021" textAlignment="CENTER">
                     <font>
-                        <Font size="24.0" />
+                        <Font size="24.0"/>
                     </font>
                 </Label>
-                <Label fx:id="timeLabel" alignment="CENTER" layoutX="207.0" layoutY="633.0" prefHeight="35.0" prefWidth="833.0" text="10:34 A.M." textAlignment="CENTER">
+                <Label fx:id="timeLabel" alignment="CENTER" layoutX="207.0" layoutY="633.0" prefHeight="35.0"
+                       prefWidth="833.0" text="10:34 A.M." textAlignment="CENTER">
                     <font>
-                        <Font size="24.0" />
+                        <Font size="24.0"/>
                     </font>
                 </Label>
-                <Button fx:id="newTurnModuloButton" layoutX="476.0" layoutY="352.0" mnemonicParsing="false" onAction="#didClickNewTurnModuloButton" prefHeight="65.0" prefWidth="230.0" style="-fx-background-color: #0078D7; -fx-background-radius: 2em;" text="Módulo" textFill="WHITE" wrapText="true">
-               <font>
-                  <Font name="System Bold" size="30.0" />
-               </font></Button>
-                <Button fx:id="newTurnCajaModuloButton" alignment="CENTER" layoutX="227.0" layoutY="432.0" mnemonicParsing="false" onAction="#didClickNewTurnCajaModuloButton" prefHeight="65.0" prefWidth="478.0" style="-fx-background-color: #0078D7; -fx-background-radius: 2em;" text="Caja/Módulo" textAlignment="CENTER" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="30.0" />
-               </font></Button>
-            <Button fx:id="preguntasFrecuentesButton" alignment="CENTER" layoutX="778.0" layoutY="352.0" mnemonicParsing="false" prefHeight="149.0" prefWidth="262.0" style="-fx-background-color: #0078D7; -fx-background-radius: 2em;" text="Preguntas frecuentes" textAlignment="CENTER" textFill="WHITE" wrapText="true">
-               <font>
-                  <Font name="System Bold" size="36.0" />
-               </font>
-            </Button>
-            <Label alignment="CENTER" layoutX="778.0" layoutY="198.0" prefHeight="107.0" prefWidth="262.0" text="Consultar Tramites" textAlignment="CENTER" wrapText="true">
-               <font>
-                  <Font name="System Bold" size="36.0" />
-               </font>
-            </Label>
+                <Button fx:id="newTurnModuloButton" layoutX="476.0" layoutY="352.0" mnemonicParsing="false"
+                        onAction="#didClickNewTurnModuloButton" prefHeight="65.0" prefWidth="230.0"
+                        style="-fx-background-color: #0078D7; -fx-background-radius: 2em;" text="Módulo"
+                        textFill="WHITE" wrapText="true">
+                    <font>
+                        <Font name="System Bold" size="30.0"/>
+                    </font>
+                </Button>
+                <Button fx:id="newTurnCajaModuloButton" alignment="CENTER" layoutX="227.0" layoutY="432.0"
+                        mnemonicParsing="false" onAction="#didClickNewTurnCajaModuloButton" prefHeight="65.0"
+                        prefWidth="478.0" style="-fx-background-color: #0078D7; -fx-background-radius: 2em;"
+                        text="Caja/Módulo" textAlignment="CENTER" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="30.0"/>
+                    </font>
+                </Button>
+                <Button fx:id="preguntasFrecuentesButton" alignment="CENTER" layoutX="778.0" layoutY="352.0"
+                        mnemonicParsing="false" prefHeight="149.0" prefWidth="262.0"
+                        style="-fx-background-color: #0078D7; -fx-background-radius: 2em;" text="Preguntas frecuentes"
+                        textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                    <font>
+                        <Font name="System Bold" size="36.0"/>
+                    </font>
+                </Button>
+                <Label alignment="CENTER" layoutX="778.0" layoutY="198.0" prefHeight="107.0" prefWidth="262.0"
+                       text="Consultar Tramites" textAlignment="CENTER" wrapText="true">
+                    <font>
+                        <Font name="System Bold" size="36.0"/>
+                    </font>
+                </Label>
             </children>
         </Pane>
     </children>
