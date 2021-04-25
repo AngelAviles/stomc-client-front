@@ -46,7 +46,7 @@ public class MenuSucursalesController implements IController {
         System.out.println("MenuSucursalesController did initialize");
 
         Conexion.getInstance().setController(this);
-        
+
         colFolioCatalagoSucursales.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<CatalogueBranch, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<CatalogueBranch, String> cellDataFeatures) {
@@ -146,15 +146,21 @@ public class MenuSucursalesController implements IController {
         switch (message.getType()) {
             case GET_MANY_CATALOGUE_BRANCH:
                 ObservableList<CatalogueBranch> lista1 = FXCollections.observableList((List<CatalogueBranch>) message.getObject());
-                tblCatalagoSucursales.setItems(lista1);
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        tblCatalagoSucursales.setItems(lista1);
+                    }
+                });
                 break;
 
             case DELETE_CATALOGUE_BRANCH:
                 ObservableList<CatalogueBranch> lista2 = FXCollections.observableList((List<CatalogueBranch>) message.getObject());
-                tblCatalagoSucursales.setItems(lista2);
+
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
+                        tblCatalagoSucursales.setItems(lista2);
                         makeToast("La sucursal ha sido eliminado correctamente");
                     }
                 });

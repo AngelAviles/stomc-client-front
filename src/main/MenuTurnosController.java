@@ -4,6 +4,7 @@ import comm.Conexion;
 import dominio.Turn;
 import dominio.Message;
 import gui_elements.Toast;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -300,7 +301,12 @@ public class MenuTurnosController implements IController {
             case GET_TURNS_STATUS_START_AND_END_DATE:
             case GET_MANY_TURN:
                 ObservableList<Turn> lista = FXCollections.observableList((List<Turn>) message.getObject());
-                tblTurnos.setItems(lista);
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        tblTurnos.setItems(lista);
+                    }
+                });
                 break;
         }
     }

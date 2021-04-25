@@ -223,15 +223,21 @@ public class MenuEmpleadosController implements IController {
         switch (message.getType()) {
             case GET_MANY_EMPLOYEE:
                 ObservableList<Employee> lista1 = FXCollections.observableList((List<Employee>) message.getObject());
-                tblEmpleados.setItems(lista1);
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        tblEmpleados.setItems(lista1);
+                    }
+                });
                 break;
 
             case DELETE_EMPLOYEE:
                 ObservableList<Employee> lista2 = FXCollections.observableList((List<Employee>) message.getObject());
-                tblEmpleados.setItems(lista2);
+
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
+                        tblEmpleados.setItems(lista2);
                         makeToast("El empleado ha sido eliminado correctamente");
                     }
                 });

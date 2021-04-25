@@ -158,15 +158,20 @@ public class MenuInformacionTramitesController implements IController {
         switch (message.getType()) {
             case GET_MANY_LYSING_INFORMATION:
                 ObservableList<LysingInformation> lista1 = FXCollections.observableList((List<LysingInformation>) message.getObject());
-                tblInformacionTramites.setItems(lista1);
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        tblInformacionTramites.setItems(lista1);
+                    }
+                });
                 break;
 
             case DELETE_LYSING_INFORMATION:
                 ObservableList<LysingInformation> lista2 = FXCollections.observableList((List<LysingInformation>) message.getObject());
-                tblInformacionTramites.setItems(lista2);
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
+                        tblInformacionTramites.setItems(lista2);
                         makeToast("El trámite ha sido eliminado correctamente");
                     }
                 });

@@ -214,20 +214,30 @@ public class MenuPuntosDeAtencionController implements IController {
         switch (message.getType()) {
             case GET_MANY_ATTENTION_POINT:
                 ObservableList<AttentionPoint> lista1 = FXCollections.observableList((List<AttentionPoint>) message.getObject());
-                tblPuntoDeAtencion.setItems(lista1);
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        tblPuntoDeAtencion.setItems(lista1);
+                    }
+                });
                 break;
 
             case GET_MANY_CATALOGUE_ATTENTION_POINT:
                 ObservableList<CatalogueAttentionPoint> lista2 = FXCollections.observableList((List<CatalogueAttentionPoint>) message.getObject());
-                tblCatalagoPuntoDeAtencion.setItems(lista2);
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        tblCatalagoPuntoDeAtencion.setItems(lista2);
+                    }
+                });
                 break;
 
             case DELETE_CATALOGUE_ATTENTION_POINT:
                 ObservableList<CatalogueAttentionPoint> lista3 = FXCollections.observableList((List<CatalogueAttentionPoint>) message.getObject());
-                tblCatalagoPuntoDeAtencion.setItems(lista3);
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
+                        tblCatalagoPuntoDeAtencion.setItems(lista3);
                         makeToast("El punto de atención ha sido eliminado correctamente");
                     }
                 });
