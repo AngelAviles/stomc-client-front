@@ -210,6 +210,13 @@ public class AccionEmpleadoController implements IController {
             }
         });
 
+        addTextLimiter(txtNoEmpleado, 250);
+        addTextLimiter(txtNombreEmpleado, 250);
+        addTextLimiter(txtDepartamentoEmpleado, 250);
+        addTextLimiter(txtDireccionEmpleado, 250);
+        addTextLimiter(txtPasswordEmpleado, 250);
+        addTextLimiter(txtUsuarioEmpleado, 250);
+
         try {
             Conexion.getInstance().sendMessage(new Message(Message.MessageType.GET_MANY_CATALOGUE_PROFILE, "usuario"));
             Conexion.getInstance().sendMessage(new Message(Message.MessageType.GET_MANY_CATALOGUE_ATTENTION_POINT, "usuario"));
@@ -217,6 +224,18 @@ public class AccionEmpleadoController implements IController {
         } catch (IOException e) {
             makeToast("Falló conexión con el servidor.");
         }
+    }
+
+    public static void addTextLimiter(final TextField tf, final int maxLength) {
+        tf.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
+                if (tf.getText().length() > maxLength) {
+                    String s = tf.getText().substring(0, maxLength);
+                    tf.setText(s);
+                }
+            }
+        });
     }
 
     @FXML
@@ -354,13 +373,13 @@ public class AccionEmpleadoController implements IController {
         switch (message.getType()) {
             case GET_MANY_CATALOGUE_PROFILE:
                 ObservableList<CatalogueProfile> listaP = FXCollections.observableList((List<CatalogueProfile>) message.getObject());
-                cboxPerfil.setItems(listaP);
 
-                if (accion.equalsIgnoreCase("Editar")) {
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        cboxPerfil.setItems(listaP);
 
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
+                        if (accion.equalsIgnoreCase("Editar")) {
                             for (int i = 0; i < cboxPerfil.getItems().size(); i++) {
                                 if (cboxPerfil.getItems().get(i).getProfileName().equalsIgnoreCase(employee.getIdProfile().getProfileName())) {
                                     cboxPerfil.getSelectionModel().select(i);
@@ -368,18 +387,19 @@ public class AccionEmpleadoController implements IController {
                                 }
                             }
                         }
-                    });
-                }
+                    }
+                });
+
                 break;
             case GET_MANY_CATALOGUE_ATTENTION_POINT:
                 ObservableList<CatalogueAttentionPoint> listaA = FXCollections.observableList((List<CatalogueAttentionPoint>) message.getObject());
-                cboxPuntoDeAtencion.setItems(listaA);
 
-                if (accion.equalsIgnoreCase("Editar")) {
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        cboxPuntoDeAtencion.setItems(listaA);
 
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
+                        if (accion.equalsIgnoreCase("Editar")) {
                             for (int i = 0; i < cboxPuntoDeAtencion.getItems().size(); i++) {
                                 if (cboxPuntoDeAtencion.getItems().get(i).getPoint().equalsIgnoreCase(employee.getIdAttentionPoint().getPoint())) {
                                     cboxPuntoDeAtencion.getSelectionModel().select(i);
@@ -387,19 +407,19 @@ public class AccionEmpleadoController implements IController {
                                 }
                             }
                         }
-                    });
-                }
+                    }
+                });
 
                 break;
             case GET_MANY_CATALOGUE_BRANCH:
                 ObservableList<CatalogueBranch> listaB = FXCollections.observableList((List<CatalogueBranch>) message.getObject());
-                cboxSucursal.setItems(listaB);
+                Platform.runLater(new Runnable() {
 
-                if (accion.equalsIgnoreCase("Editar")) {
+                    @Override
+                    public void run() {
+                        cboxSucursal.setItems(listaB);
 
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
+                        if (accion.equalsIgnoreCase("Editar")) {
                             for (int i = 0; i < cboxSucursal.getItems().size(); i++) {
                                 if (cboxSucursal.getItems().get(i).getBranchName().equalsIgnoreCase(employee.getIdBranch().getBranchName())) {
                                     cboxSucursal.getSelectionModel().select(i);
@@ -407,9 +427,8 @@ public class AccionEmpleadoController implements IController {
                                 }
                             }
                         }
-                    });
-                }
-
+                    }
+                });
                 break;
             case ADD_EMPLOYEE:
                 ObservableList<Employee> listaE = FXCollections.observableList((List<Employee>) message.getObject());
@@ -418,10 +437,10 @@ public class AccionEmpleadoController implements IController {
                         @Override
                         public void run() {
                             makeToast("Ya existe un empleado con el numero y el usuario ingresados.");
+                            txtNoEmpleado.setStyle("-fx-border-color: red");
+                            txtUsuarioEmpleado.setStyle("-fx-border-color: red");
                         }
                     });
-                    txtNoEmpleado.setStyle("-fx-border-color: red");
-                    txtUsuarioEmpleado.setStyle("-fx-border-color: red");
                 } else {
                     Platform.runLater(new Runnable() {
                         @Override
@@ -440,9 +459,9 @@ public class AccionEmpleadoController implements IController {
                         @Override
                         public void run() {
                             makeToast("Ya existe un empleado con el usuario ingresado.");
+                            txtUsuarioEmpleado.setStyle("-fx-border-color: red");
                         }
                     });
-                    txtUsuarioEmpleado.setStyle("-fx-border-color: red");
                 } else {
                     Platform.runLater(new Runnable() {
                         @Override

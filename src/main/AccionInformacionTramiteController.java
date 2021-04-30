@@ -158,9 +158,10 @@ public class AccionInformacionTramiteController implements IController {
                         @Override
                         public void run() {
                             makeToast("Ya existe un trámite con los mismos datos");
+                            txtProceso.setStyle("-fx-border-color: red");
                         }
                     });
-                    txtProceso.setStyle("-fx-border-color: red");
+
                 } else {
                     Platform.runLater(new Runnable() {
                         @Override
@@ -179,9 +180,10 @@ public class AccionInformacionTramiteController implements IController {
                         @Override
                         public void run() {
                             makeToast("Ya existe un trámite con los mismos datos");
+                            txtProceso.setStyle("-fx-border-color: red");
                         }
                     });
-                    txtProceso.setStyle("-fx-border-color: red");
+
                 } else {
                     Platform.runLater(new Runnable() {
                         @Override

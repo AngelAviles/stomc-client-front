@@ -1,16 +1,22 @@
 package main;
 
+import comm.Conexion;
+import dominio.Employee;
 import dominio.Message;
 import gui_elements.Toast;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
@@ -19,6 +25,15 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 public class AdministrarSistemaController implements IController {
+
+    private IniciarSesionController iniciarSesionController;
+
+    private Employee empleado;
+
+    @FXML
+    public Button btnCerrarSesion;
+    @FXML
+    public Label txtEmpleado;
 
     @FXML
     public Label dateLabel;
@@ -37,6 +52,18 @@ public class AdministrarSistemaController implements IController {
     public Button btnTurnos;
     @FXML
     public Button btnTramites;
+
+    public void setEmpleado(Employee empleado) {
+        this.empleado = empleado;
+
+        if (empleado != null) {
+            txtEmpleado.setText(empleado.getName());
+        }
+    }
+
+    public Employee getEmpleado() {
+        return empleado;
+    }
 
     public void initialize(){
         System.out.println("AdministrarSistemaController did initialize");
@@ -78,6 +105,37 @@ public class AdministrarSistemaController implements IController {
         loadContent("menuInformacionTramites.fxml");
     }
 
+    @FXML
+    public void didClickCerrarSesionButton(ActionEvent actionEvent) {
+
+        try {
+            setEmpleado(null);
+
+            try {
+                Conexion.getInstance().close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("inicioSesion.fxml"));
+            Parent root = loader.load();
+
+            Scene scene = new Scene(root, 1060, 700);
+            Stage appStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            appStage.setScene(scene);
+            appStage.toFront();
+            appStage.show();
+
+            iniciarSesionController = loader.getController();
+
+            appStage.setTitle("STOMC Client");
+            appStage.setOnCloseRequest(windowEvent -> System.exit(0));
+            appStage.show();
+        } catch(IOException e) {
+            makeToast("Error al cerrar Sesión.");
+        }
+    }
+
     public void loadContent(String recurso) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(recurso));
@@ -96,4 +154,6 @@ public class AdministrarSistemaController implements IController {
     public void handleMessage(Message message) {
 
     }
+
+
 }

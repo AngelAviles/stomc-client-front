@@ -65,6 +65,20 @@ public class AccionSucursalController implements IController {
         System.out.println("AccionSucursalController did initialize");
 
         Conexion.getInstance().setController(this);
+
+        addTextLimiter(txtNombre, 250);
+    }
+
+    public static void addTextLimiter(final TextField tf, final int maxLength) {
+        tf.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
+                if (tf.getText().length() > maxLength) {
+                    String s = tf.getText().substring(0, maxLength);
+                    tf.setText(s);
+                }
+            }
+        });
     }
 
     @FXML
@@ -159,9 +173,10 @@ public class AccionSucursalController implements IController {
                         @Override
                         public void run() {
                             makeToast("Ya existe una sucursal con el mismo nombre");
+                            txtNombre.setStyle("-fx-border-color: red");
                         }
                     });
-                    txtNombre.setStyle("-fx-border-color: red");
+
                 } else {
                     Platform.runLater(new Runnable() {
                         @Override
@@ -180,9 +195,10 @@ public class AccionSucursalController implements IController {
                         @Override
                         public void run() {
                             makeToast("Ya existe una sucursal con el mismo nombre");
+                            txtNombre.setStyle("-fx-border-color: red");
                         }
                     });
-                    txtNombre.setStyle("-fx-border-color: red");
+
                 } else {
                     Platform.runLater(new Runnable() {
                         @Override

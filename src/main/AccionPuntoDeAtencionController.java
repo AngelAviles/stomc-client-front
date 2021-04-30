@@ -41,7 +41,7 @@ public class AccionPuntoDeAtencionController implements IController {
     public Label lblPuntoDeAtencionAccion;
 
     @FXML
-    public TextField txtNumero;
+    public Spinner<Integer> txtNumero;
     @FXML
     public ComboBox<String> cboxTipo;
 
@@ -69,7 +69,7 @@ public class AccionPuntoDeAtencionController implements IController {
                     }
                 }
 
-                txtNumero.setText(attentionPoint.getPoint().split(separador)[1]);
+                txtNumero.getValueFactory().setValue( Integer.valueOf(attentionPoint.getPoint().split(separador)[1]) );
 
                 break;
         }
@@ -85,14 +85,16 @@ public class AccionPuntoDeAtencionController implements IController {
         Conexion.getInstance().setController(this);
 
         // Solo acepta valores numericos
-        txtNumero.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (!newValue.matches("\\d*")) {
-                    txtNumero.setText(newValue.replaceAll("[^\\d]", ""));
-                }
-            }
-        });
+//        txtNumero.textProperty().addListener(new ChangeListener<String>() {
+//            @Override
+//            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+//                if (!newValue.matches("\\d*")) {
+//                    txtNumero.setText(newValue.replaceAll("[^\\d]", ""));
+//                }
+//            }
+//        });
+
+
 
         cboxTipo.setCellFactory(new Callback<ListView<String>, ListCell<String>>() {
             @Override
@@ -136,7 +138,7 @@ public class AccionPuntoDeAtencionController implements IController {
     private void editAttentionPoint() {
         CatalogueAttentionPoint catalogueAttentionPoint = this.attentionPoint;
 
-        catalogueAttentionPoint.setPoint(cboxTipo.getValue() + " - " + txtNumero.getText());
+        catalogueAttentionPoint.setPoint(cboxTipo.getValue() + " - " + txtNumero.getValue());
 
         Message msg = new Message(Message.MessageType.EDIT_CATALOGUE_ATTENTION_POINT, "test_user");
         msg.setObject(catalogueAttentionPoint);
@@ -151,7 +153,7 @@ public class AccionPuntoDeAtencionController implements IController {
     private void addAttentionPoint() {
         CatalogueAttentionPoint catalogueAttentionPoint = new CatalogueAttentionPoint();
 
-        catalogueAttentionPoint.setPoint(cboxTipo.getValue() + " - " + txtNumero.getText());
+        catalogueAttentionPoint.setPoint(cboxTipo.getValue() + " - " + txtNumero.getValue());
 
         Message msg = new Message(Message.MessageType.ADD_CATALOGUE_ATTENTION_POINT, "test_user");
         msg.setObject(catalogueAttentionPoint);
@@ -191,7 +193,7 @@ public class AccionPuntoDeAtencionController implements IController {
     private boolean camposVacios() {
         boolean respuesta = false;
 
-        if (txtNumero.getText().isEmpty()) {
+        if (txtNumero.getValue() == null) {
             txtNumero.setStyle("-fx-border-color: red");
             respuesta = true;
         }
@@ -213,10 +215,11 @@ public class AccionPuntoDeAtencionController implements IController {
                         @Override
                         public void run() {
                             makeToast("Ya existe un punto de atención con esos datos ingresados");
+                            txtNumero.setStyle("-fx-border-color: red");
+                            cboxTipo.setStyle("-fx-border-color: red");
                         }
                     });
-                    txtNumero.setStyle("-fx-border-color: red");
-                    cboxTipo.setStyle("-fx-border-color: red");
+
                 } else {
                     Platform.runLater(new Runnable() {
                         @Override
@@ -235,10 +238,11 @@ public class AccionPuntoDeAtencionController implements IController {
                         @Override
                         public void run() {
                             makeToast("Ya existe un punto de atención con esos datos ingresados");
+                            txtNumero.setStyle("-fx-border-color: red");
+                            cboxTipo.setStyle("-fx-border-color: red");
                         }
                     });
-                    txtNumero.setStyle("-fx-border-color: red");
-                    cboxTipo.setStyle("-fx-border-color: red");
+
                 } else {
                     Platform.runLater(new Runnable() {
                         @Override

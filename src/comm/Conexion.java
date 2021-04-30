@@ -29,9 +29,7 @@ public class Conexion implements Runnable {
             serverPort = Integer.parseInt(prop.getProperty("server_port"));
             serverHost = prop.getProperty("serverHost");
 
-            socket = new Socket(serverHost, serverPort);
-            os = new ObjectOutputStream(socket.getOutputStream());
-            is = new ObjectInputStream(socket.getInputStream());
+            connect();
 
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -44,16 +42,6 @@ public class Conexion implements Runnable {
     public static Conexion getInstance() {
         if (instance == null) {
             instance = new Conexion();
-        }
-
-        if (socket.isClosed()) {
-            try {
-                socket = new Socket(serverHost, serverPort);
-                os = new ObjectOutputStream(socket.getOutputStream());
-                is = new ObjectInputStream(socket.getInputStream());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
 
         return instance;
@@ -83,28 +71,40 @@ public class Conexion implements Runnable {
         }
     }
 
-    public void close() throws IOException {
+    public static void close() throws IOException {
         is.close();
         os.close();
         socket.close();
     }
 
+    public static void connect() throws IOException {
+        socket = new Socket(serverHost, serverPort);
+        os = new ObjectOutputStream(socket.getOutputStream());
+        is = new ObjectInputStream(socket.getInputStream());
+    }
+
     @Override
     public void run() {
         while (true) {
-            try {
-                Message message = (Message) is.readObject();
-
-                getController().handleMessage(message);
-            } catch (IOException | ClassNotFoundException e) {
+            if (!socket.isClosed()) {
                 try {
-                    close();
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
-                    return;
+                    Message message = (Message) is.readObject();
+
+                    getController().handleMessage(message);
+                } catch (Exception e) {
+                    try {
+                        close();
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+                    e.printStackTrace();
                 }
-                e.printStackTrace();
-                return;
+            } else {
+                try {
+                    connect();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
