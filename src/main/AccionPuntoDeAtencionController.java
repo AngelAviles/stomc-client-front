@@ -25,7 +25,7 @@ public class AccionPuntoDeAtencionController implements IController {
     private String accion;
     private CatalogueAttentionPoint attentionPoint;
     private static String separador = "\\s*-\\s*";
-    private static List<String> tipos = new ArrayList<>() {
+    private static List<String> tipos = new ArrayList<String>() {
         {
             add("Caja");
             add("Módulo");

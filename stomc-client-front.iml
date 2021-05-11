@@ -10,16 +10,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">
       <library name="javafx-fxml">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/javafx-fxml-15.jar!/" />
-          <root url="jar://$MODULE_DIR$/lib/javafx-fxml-15-win.jar!/" />
-          <root url="jar://$MODULE_DIR$/lib/javafx-controls-15.jar!/" />
-          <root url="jar://$MODULE_DIR$/lib/javafx-controls-15-win.jar!/" />
-          <root url="jar://$MODULE_DIR$/lib/javafx-graphics-15.jar!/" />
-          <root url="jar://$MODULE_DIR$/lib/javafx-graphics-15-win.jar!/" />
-          <root url="jar://$MODULE_DIR$/lib/javafx-base-15.jar!/" />
-          <root url="jar://$MODULE_DIR$/lib/javafx-base-15-win.jar!/" />
-        </CLASSES>
+        <CLASSES />
         <JAVADOC />
         <SOURCES />
       </library>

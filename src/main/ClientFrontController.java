@@ -12,14 +12,22 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.print.PageLayout;
+import javafx.print.PrinterJob;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import print.PrintController;
+import server.Server;
+import server.TurnManager;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -28,11 +36,15 @@ import java.time.format.DateTimeFormatter;
 
 public class ClientFrontController implements IController{
 
+    static Server server = new Server();
+
     private IniciarSesionController iniciarSesionController;
 
     private Turn turn;
 
     private Employee empleado;
+
+    private TurnManager turnManager;
 
     @FXML
     public Button btnCerrarSesion;
@@ -56,7 +68,17 @@ public class ClientFrontController implements IController{
     @FXML
     public Label txtTurnoCreado;
     @FXML
+    public Label txtTipoCreado;
+    @FXML
+    public Label txtFechaCreado;
+    @FXML
+    public Label txtTiempoCreado;
+    @FXML
     public Button imprimirTurnoButton;
+    @FXML
+    public AnchorPane panTicket;
+    @FXML
+    public ImageView imgLogo;
 
     public Turn getTurn() {
         return turn;
@@ -93,12 +115,23 @@ public class ClientFrontController implements IController{
         clock.play();
 
         dateLabel.setText(LocalDate.now().format(DateTimeFormatter.ofPattern("EEEE dd 'de' MMMM 'del' yyyy")));
+
+        imgLogo.setImage(new Image(getClass().getClassLoader().getResourceAsStream(("logo.png"))));
+        imgLogo.setCache(true);
+
+        Thread serverThread = new Thread(server);
+        serverThread.start();
     }
 
     @FXML
     public void didClickNewTurnCajaButton(){
         System.out.println("Nuevo Turno Caja Button Clicked");
         Message msg = new Message(Message.MessageType.NEW_TURN_CAJA, "test_user");
+        msg = turnManager.createNewCajaTurn(msg);
+
+        setTurn( (Turn)msg.getObject() );
+        updateCreatedTurnLabelWithText();
+        makeToast("Turno " + ( (Turn)msg.getObject() ).getType().toString() + " creado exitosamente.");
         try {
             Conexion.getInstance().sendMessage(msg);
         } catch (IOException e) {
@@ -111,6 +144,11 @@ public class ClientFrontController implements IController{
     public void didClickNewTurnModuloButton(){
         System.out.println("Nuevo Turno Modulo Button Clicked");
         Message msg = new Message(Message.MessageType.NEW_TURN_MODULO, "test_user");
+        msg = turnManager.createNewModuloTurn(msg);
+
+        setTurn( (Turn)msg.getObject() );
+        updateCreatedTurnLabelWithText();
+        makeToast("Turno " + ( (Turn)msg.getObject() ).getType().toString() + " creado exitosamente.");
         try {
             Conexion.getInstance().sendMessage(msg);
         } catch (IOException e) {
@@ -123,6 +161,11 @@ public class ClientFrontController implements IController{
     public void didClickNewTurnCajaModuloButton(){
         System.out.println("Nuevo Turno Caja/Modulo Button Clicked");
         Message msg = new Message(Message.MessageType.NEW_TURN_GENERIC, "test_user");
+        msg = turnManager.createNewGenericTurn(msg);
+
+        setTurn( (Turn)msg.getObject() );
+        updateCreatedTurnLabelWithText();
+        makeToast("Turno " + ( (Turn)msg.getObject() ).getType().toString() + " creado exitosamente.");
         try {
             Conexion.getInstance().sendMessage(msg);
         } catch (IOException e) {
@@ -133,10 +176,27 @@ public class ClientFrontController implements IController{
 
     @FXML
     public void didClickImprimirButton(ActionEvent actionEvent) {
-        if (getTurn() != null) {
-            PrintController.imprimirTurno(getTurn());
-        } else {
-            makeToast("NO HAY TURNO PARA IMPRIMIR");
+
+        PrinterJob printerJob = PrinterJob.createPrinterJob();
+        if (printerJob != null) {
+            //PageLayout pageLayout = printerJob.getPrinter().createPageLayout(Paper.A5, PageOrientation.PORTRAIT, 0, 0, 0, 0);
+
+            WritableImage view = panTicket.snapshot(null, null);
+            ImageView ticket = new ImageView(view);
+
+            final PageLayout pageLayout = printerJob.getJobSettings().getPageLayout();
+            final double scaleX = pageLayout.getPrintableWidth() /*216*/ / ticket.getImage().getWidth();
+            final double scaleY = pageLayout.getPrintableHeight() /*216*/ / ticket.getImage().getHeight();
+            final double scale = Math.min(scaleX, scaleY);
+            // scale the calendar image only when it's too big for the selected page
+            if (scale < 1.0) {
+                ticket.getTransforms().add(new Scale(scale, scale));
+            }
+
+            boolean success = printerJob.printPage(ticket);
+            if (success) {
+                printerJob.endJob();
+            }
         }
     }
 
@@ -153,30 +213,37 @@ public class ClientFrontController implements IController{
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-                        setTurn( (Turn)message.getObject() );
-                        updateCreatedTurnLabelWithText();
-                        makeToast("Turno " + ( (Turn)message.getObject() ).getType().toString() + " creado exitosamente.");
+//                        setTurn( (Turn)message.getObject() );
+//                        updateCreatedTurnLabelWithText();
+//                        makeToast("Turno " + ( (Turn)message.getObject() ).getType().toString() + " creado exitosamente.");
                     }
                 });
         }
     }
 
     public void updateCreatedTurnLabelWithText() {
-        String s = "";
+        String letra = "";
+        String tipo = "";
         switch (getTurn().getType()) {
 
             case CAJA:
-                s = "C";
+                letra = "C";
+                tipo = "CAJAS";
                 break;
             case MODULO:
-                s = "M";
+                letra = "M";
+                tipo = "MODULOS";
                 break;
             case GENERIC:
-                s = "G";
+                letra = "G";
+                tipo = "CAJA/MODULO";
                 break;
         }
 
-        txtTurnoCreado.setText(s + getTurn().getTurnNumber());
+        txtTurnoCreado.setText(letra + getTurn().getTurnNumber());
+        txtTipoCreado.setText(tipo);
+        txtFechaCreado.setText(LocalDate.now().format(DateTimeFormatter.ofPattern("EEEE dd 'de' MMMM 'del' yyyy")));
+        txtTiempoCreado.setText(LocalTime.now().format(DateTimeFormatter.ofPattern("hh:mm:ss a")));
     }
 
     @FXML

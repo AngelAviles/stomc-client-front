@@ -22,7 +22,7 @@ public class Conexion implements Runnable {
 
     private Conexion() {
 
-        try (InputStream input = new FileInputStream("res/config.properties")) {
+        try (InputStream input = getClass().getClassLoader().getResourceAsStream("config.properties")) {
 
             Properties prop = new Properties();
             prop.load(input);

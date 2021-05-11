@@ -25,7 +25,7 @@ import java.util.List;
 
 public class MenuTurnosController implements IController {
 
-    private static List<String> estados = new ArrayList<>() {
+    private static List<String> estados = new ArrayList<String>() {
         {
             add("Todos");
             add("Esperando");

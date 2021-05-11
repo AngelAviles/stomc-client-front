@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact name="stomc-client-front:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/stomc_client_front_jar</output-path>
+    <root id="root">
+      <element id="archive" name="stomc-client-front.jar">
+        <element id="module-output" name="stomc-client-front" />
+      </element>
+      <element id="library" level="project" name="lib" />
+      <element id="library" level="module" name="javafx-fxml" module-name="stomc-client-front" />
+    </root>
+  </artifact>
+</component>
