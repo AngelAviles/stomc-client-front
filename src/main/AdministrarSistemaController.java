@@ -15,6 +15,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -41,6 +43,8 @@ public class AdministrarSistemaController implements IController {
     public Label timeLabel;
     @FXML
     public BorderPane panContenido;
+    @FXML
+    ImageView imgLogo;
 
     @FXML
     public Button btnEmpleados;
@@ -78,6 +82,9 @@ public class AdministrarSistemaController implements IController {
         clock.play();
 
         dateLabel.setText(LocalDate.now().format(DateTimeFormatter.ofPattern("EEEE dd 'de' MMMM 'del' yyyy")));
+
+        imgLogo.setImage(new Image(getClass().getClassLoader().getResourceAsStream(("logo.png"))));
+        imgLogo.setCache(true);
 
         loadContent("menuEmpleados.fxml");
     }

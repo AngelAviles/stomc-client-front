@@ -14,6 +14,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
@@ -30,6 +31,8 @@ public class AccionInformacionTramiteController implements IController {
     @FXML
     public Label lblInformacionTramiteAccion;
 
+    @FXML
+    public TextField txtTitulo;
     @FXML
     public TextArea txtProceso;
 
@@ -50,6 +53,7 @@ public class AccionInformacionTramiteController implements IController {
                 lblInformacionTramiteAccion.setText("Editar Información de Trámite");
                 btnAceptar.setText("Editar");
 
+                txtTitulo.setText(lysingInformation.getTitle());
                 txtProceso.setText(lysingInformation.getProcess());
 
                 break;
@@ -85,6 +89,7 @@ public class AccionInformacionTramiteController implements IController {
     private void editLysingInformation() {
         LysingInformation lysingInformation = this.lysingInformation;
 
+        lysingInformation.setTitle(txtTitulo.getText());
         lysingInformation.setProcess(txtProceso.getText());
 
         Message msg = new Message(Message.MessageType.EDIT_LYSING_INFORMATION, "test_user");
@@ -100,6 +105,7 @@ public class AccionInformacionTramiteController implements IController {
     private void addLysingInformation() {
         LysingInformation lysingInformation = new LysingInformation();
 
+        lysingInformation.setTitle(txtTitulo.getText());
         lysingInformation.setProcess(txtProceso.getText());
 
         Message msg = new Message(Message.MessageType.ADD_LYSING_INFORMATION, "test_user");
@@ -142,6 +148,10 @@ public class AccionInformacionTramiteController implements IController {
 
         if (txtProceso.getText().isEmpty()) {
             txtProceso.setStyle("-fx-border-color: red");
+            respuesta = true;
+        }
+        if (txtTitulo.getText().isEmpty()) {
+            txtTitulo.setStyle("-fx-border-color: red");
             respuesta = true;
         }
 

@@ -21,6 +21,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -33,7 +39,10 @@ public class IniciarSesionController implements IController {
 
     AdministrarSistemaController administrarSistemaController;
     ClientFrontController clientFrontController;
+    TurneroController turneroController;
 
+    @FXML
+    public ImageView imgLogo;
     @FXML
     public Label dateLabel;
     @FXML
@@ -63,6 +72,9 @@ public class IniciarSesionController implements IController {
 
         addTextLimiter(txtUsuario, 250);
         addTextLimiter(txtPassword, 250);
+
+        imgLogo.setImage(new Image(getClass().getClassLoader().getResourceAsStream(("logo.png"))));
+        imgLogo.setCache(true);
     }
 
     public static void addTextLimiter(final TextField tf, final int maxLength) {
@@ -150,6 +162,23 @@ public class IniciarSesionController implements IController {
         appStage.setTitle("STOMC Client - Front");
         appStage.setOnCloseRequest(windowEvent -> System.exit(0));
         appStage.show();
+
+        // Abre ventana del turnero
+        FXMLLoader loaderTurnero = new FXMLLoader(getClass().getResource("turnero.fxml"));
+        Pane ventanaDos = (Pane) loaderTurnero.load();
+        Stage ventanaTurnero = new Stage();
+        ventanaTurnero.setOnCloseRequest(windowEvent -> windowEvent.consume());
+        ventanaTurnero.setTitle("TURNERO OOMAPASC");
+        //ventanaTurnero.initOwner(appStage);
+        Scene sceneTurnero = new Scene(ventanaDos);
+        ventanaTurnero.setScene(sceneTurnero);
+        turneroController = loaderTurnero.getController();
+
+        clientFrontController.setTurneroController(turneroController);
+
+        ventanaTurnero.show();
+
+        letterbox(sceneTurnero, ventanaDos);
     }
 
     @Override
@@ -187,5 +216,55 @@ public class IniciarSesionController implements IController {
                 }
             }
         });
+    }
+
+    private void letterbox(final Scene scene, final Pane contentPane) {
+        final double initWidth  = scene.getWidth();
+        final double initHeight = scene.getHeight();
+        final double ratio      = initWidth / initHeight;
+
+        SceneSizeChangeListener sizeListener = new SceneSizeChangeListener(scene, ratio, initHeight, initWidth, contentPane);
+        scene.widthProperty().addListener(sizeListener);
+        scene.heightProperty().addListener(sizeListener);
+    }
+
+    private static class SceneSizeChangeListener implements ChangeListener<Number> {
+        private final Scene scene;
+        private final double ratio;
+        private final double initHeight;
+        private final double initWidth;
+        private final Pane contentPane;
+
+        public SceneSizeChangeListener(Scene scene, double ratio, double initHeight, double initWidth, Pane contentPane) {
+            this.scene = scene;
+            this.ratio = ratio;
+            this.initHeight = initHeight;
+            this.initWidth = initWidth;
+            this.contentPane = contentPane;
+        }
+
+        @Override
+        public void changed(ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) {
+            final double newWidth = scene.getWidth();
+            final double newHeight = scene.getHeight();
+
+            double scaleFactor =
+                    newWidth / newHeight > ratio
+                            ? newHeight / initHeight
+                            : newWidth / initWidth;
+
+            if (scaleFactor >= 1) {
+                Scale scale = new Scale(scaleFactor, scaleFactor);
+                scale.setPivotX(0);
+                scale.setPivotY(0);
+                scene.getRoot().getTransforms().setAll(scale);
+
+                contentPane.setPrefWidth(newWidth / scaleFactor);
+                contentPane.setPrefHeight(newHeight / scaleFactor);
+            } else {
+                contentPane.setPrefWidth(Math.max(initWidth, newWidth));
+                contentPane.setPrefHeight(Math.max(initHeight, newHeight));
+            }
+        }
     }
 }

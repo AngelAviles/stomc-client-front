@@ -38,13 +38,13 @@ public class ClientFrontController implements IController{
 
     static Server server = new Server();
 
-    private IniciarSesionController iniciarSesionController;
+    private TurneroController turneroController;
 
     private Turn turn;
 
     private Employee empleado;
 
-    private TurnManager turnManager;
+    private TurnManager turnManager = new TurnManager();
 
     @FXML
     public Button btnCerrarSesion;
@@ -79,6 +79,10 @@ public class ClientFrontController implements IController{
     public AnchorPane panTicket;
     @FXML
     public ImageView imgLogo;
+    @FXML
+    public ImageView imgLogoVentana;
+    @FXML
+    public Label lblTurnosAdelante;
 
     public Turn getTurn() {
         return turn;
@@ -94,6 +98,15 @@ public class ClientFrontController implements IController{
         if (empleado != null) {
             txtEmpleado.setText(empleado.getName());
         }
+    }
+
+    public TurneroController getTurneroController() {
+        return turneroController;
+    }
+
+    public void setTurneroController(TurneroController turneroController) {
+        this.turneroController = turneroController;
+        this.turnManager.setTurneroController(turneroController);
     }
 
     public Employee getEmpleado() {
@@ -118,6 +131,9 @@ public class ClientFrontController implements IController{
 
         imgLogo.setImage(new Image(getClass().getClassLoader().getResourceAsStream(("logo.png"))));
         imgLogo.setCache(true);
+
+        imgLogoVentana.setImage(new Image(getClass().getClassLoader().getResourceAsStream(("logo.png"))));
+        imgLogoVentana.setCache(true);
 
         Thread serverThread = new Thread(server);
         serverThread.start();
@@ -229,14 +245,17 @@ public class ClientFrontController implements IController{
             case CAJA:
                 letra = "C";
                 tipo = "CAJAS";
+                lblTurnosAdelante.setText("Turnos adelante: " + turnManager.getCajaTurnList().size());
                 break;
             case MODULO:
                 letra = "M";
                 tipo = "MODULOS";
+                lblTurnosAdelante.setText("Turnos adelante: " + turnManager.getModuloTurnList().size());
                 break;
             case GENERIC:
                 letra = "G";
                 tipo = "CAJA/MODULO";
+                lblTurnosAdelante.setText("Turnos adelante: " + turnManager.getGenericTurnList().size());
                 break;
         }
 
@@ -264,9 +283,6 @@ public class ClientFrontController implements IController{
             Stage appStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             appStage.setScene(scene);
             appStage.toFront();
-            appStage.show();
-
-            iniciarSesionController = loader.getController();
 
             appStage.setTitle("STOMC Client");
             appStage.setOnCloseRequest(windowEvent -> System.exit(0));

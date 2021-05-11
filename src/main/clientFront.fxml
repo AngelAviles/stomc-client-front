@@ -76,74 +76,80 @@
                         <Font name="System Bold" size="36.0" />
                     </font>
                 </Label>
-            <Label alignment="CENTER" layoutX="708.0" layoutY="166.0" prefHeight="53.0" prefWidth="230.0" text="Turno creado" textAlignment="CENTER" wrapText="true">
-               <font>
-                  <Font name="System Bold" size="36.0" />
-               </font>
-            </Label>
-            <Button fx:id="imprimirTurnoButton" alignment="CENTER" layoutX="760.0" layoutY="546.0" mnemonicParsing="false" onAction="#didClickImprimirButton" style="-fx-background-color: #0078D7; -fx-background-radius: 2em;" text="Imprimir" textAlignment="CENTER" textFill="WHITE" wrapText="true">
-               <font>
-                  <Font name="System Bold" size="23.0" />
-               </font>
-            </Button>
-            <ScrollPane layoutX="639.0" layoutY="219.0" prefHeight="316.0" prefWidth="369.0">
-               <content>
-                  <AnchorPane fx:id="panTicket" prefHeight="450.0" prefWidth="350.0" style="-fx-border-color: black;">
-                     <children>
-                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="50.0" layoutY="20.0" text="TURNO:" textAlignment="CENTER" wrapText="true">
-                           <font>
-                              <Font size="31.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="txtTurnoCreado" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="160.0" layoutY="14.0" prefHeight="59.0" prefWidth="141.0" text="M100" textAlignment="CENTER" underline="true" wrapText="true">
-                           <font>
-                              <Font name="System Bold" size="41.0" />
-                           </font>
-                        </Label>
-                        <ImageView fx:id="imgLogo" fitHeight="46.0" fitWidth="127.0" layoutX="15.0" layoutY="361.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../res/logo.png" />
-                           </image>
-                        </ImageView>
-                        <Label fx:id="txtTipoCreado" alignment="CENTER" contentDisplay="CENTER" layoutX="54.0" layoutY="85.0" prefHeight="27.0" prefWidth="253.0" text="MODULOS" textAlignment="CENTER">
-                           <font>
-                              <Font name="System Bold" size="18.0" />
-                           </font>
-                        </Label>
-                        <Label alignment="CENTER" layoutX="60.0" layoutY="112.0" prefHeight="59.0" prefWidth="230.0" text="TOME ASIENTO Y ESPERE UN MOMENTO POR FAVOR" textAlignment="CENTER" wrapText="true">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Label>
-                        <Label layoutX="126.0" layoutY="171.0" text="! GRACIAS ¡">
-                           <font>
-                              <Font name="System Bold" size="18.0" />
-                           </font>
-                        </Label>
-                        <Label alignment="CENTER" layoutX="96.0" layoutY="198.0" text="Turnos adelante: XX" textAlignment="CENTER" wrapText="true">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="txtFechaCreado" alignment="CENTER" layoutX="39.0" layoutY="260.0" prefHeight="25.0" prefWidth="282.0" text="Martes 23 de Febrero del 2021" textAlignment="CENTER">
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="txtTiempoCreado" alignment="CENTER" layoutX="60.0" layoutY="285.0" prefHeight="25.0" prefWidth="230.0" text="10:34 A.M." textAlignment="CENTER">
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                        </Label>
-                        <Label alignment="CENTER" layoutX="169.0" layoutY="333.0" text="Sinaloa Nte. Entre Hidalgo y" textAlignment="CENTER" />
-                        <Label alignment="CENTER" layoutX="180.0" layoutY="350.0" text="Allende, Colonia Centro" textAlignment="CENTER" />
-                        <Label alignment="CENTER" layoutX="150.0" layoutY="367.0" text="C.P. 86000 Telefono (644) 410 8383" textAlignment="CENTER" />
-                        <Label alignment="CENTER" layoutX="187.0" layoutY="384.0" text="Cd. Obregon, Sonora" textAlignment="CENTER" />
-                        <Label alignment="CENTER" layoutX="180.0" layoutY="401.0" text="www.oomapasc.gob.mx" textAlignment="CENTER" />
-                        <Label alignment="CENTER" layoutX="166.0" layoutY="418.0" text="atencion@oomapasc.gob.mx" textAlignment="CENTER" />
-                     </children>
-                  </AnchorPane>
-               </content></ScrollPane>
+                <Label alignment="CENTER" layoutX="708.0" layoutY="166.0" prefHeight="53.0" prefWidth="230.0" text="Turno creado" textAlignment="CENTER" wrapText="true">
+                    <font>
+                        <Font name="System Bold" size="36.0" />
+                    </font>
+                </Label>
+                <Button fx:id="imprimirTurnoButton" alignment="CENTER" layoutX="760.0" layoutY="546.0" mnemonicParsing="false" onAction="#didClickImprimirButton" style="-fx-background-color: #0078D7; -fx-background-radius: 2em;" text="Imprimir" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                    <font>
+                        <Font name="System Bold" size="23.0" />
+                    </font>
+                </Button>
+                <ScrollPane layoutX="639.0" layoutY="219.0" prefHeight="316.0" prefWidth="369.0">
+                    <content>
+                        <AnchorPane fx:id="panTicket" prefHeight="450.0" prefWidth="350.0" style="-fx-border-color: black;">
+                            <children>
+                                <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="50.0" layoutY="20.0" text="TURNO:" textAlignment="CENTER" wrapText="true">
+                                    <font>
+                                        <Font size="31.0" />
+                                    </font>
+                                </Label>
+                                <Label fx:id="txtTurnoCreado" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="160.0" layoutY="14.0" prefHeight="59.0" prefWidth="141.0" text="M100" textAlignment="CENTER" underline="true" wrapText="true">
+                                    <font>
+                                        <Font name="System Bold" size="41.0" />
+                                    </font>
+                                </Label>
+                                <ImageView fx:id="imgLogo" fitHeight="46.0" fitWidth="127.0" layoutX="15.0" layoutY="361.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../../res/logo.png" />
+                                    </image>
+                                </ImageView>
+                                <Label fx:id="txtTipoCreado" alignment="CENTER" contentDisplay="CENTER" layoutX="54.0" layoutY="85.0" prefHeight="27.0" prefWidth="253.0" text="MODULOS" textAlignment="CENTER">
+                                    <font>
+                                        <Font name="System Bold" size="18.0" />
+                                    </font>
+                                </Label>
+                                <Label alignment="CENTER" layoutX="60.0" layoutY="112.0" prefHeight="59.0" prefWidth="230.0" text="TOME ASIENTO Y ESPERE UN MOMENTO POR FAVOR" textAlignment="CENTER" wrapText="true">
+                                    <font>
+                                        <Font size="18.0" />
+                                    </font>
+                                </Label>
+                                <Label layoutX="126.0" layoutY="171.0" text="! GRACIAS ¡">
+                                    <font>
+                                        <Font name="System Bold" size="18.0" />
+                                    </font>
+                                </Label>
+                                <Label fx:id="lblTurnosAdelante" alignment="CENTER" contentDisplay="CENTER" layoutX="96.0" layoutY="198.0" text="Turnos adelante: XX" textAlignment="CENTER" wrapText="true">
+                                    <font>
+                                        <Font size="18.0" />
+                                    </font>
+                                </Label>
+                                <Label fx:id="txtFechaCreado" alignment="CENTER" layoutX="39.0" layoutY="260.0" prefHeight="25.0" prefWidth="282.0" text="Martes 23 de Febrero del 2021" textAlignment="CENTER">
+                                    <font>
+                                        <Font size="16.0" />
+                                    </font>
+                                </Label>
+                                <Label fx:id="txtTiempoCreado" alignment="CENTER" layoutX="60.0" layoutY="285.0" prefHeight="25.0" prefWidth="230.0" text="10:34 A.M." textAlignment="CENTER">
+                                    <font>
+                                        <Font size="16.0" />
+                                    </font>
+                                </Label>
+                                <Label alignment="CENTER" layoutX="169.0" layoutY="333.0" text="Sinaloa Nte. Entre Hidalgo y" textAlignment="CENTER" />
+                                <Label alignment="CENTER" layoutX="180.0" layoutY="350.0" text="Allende, Colonia Centro" textAlignment="CENTER" />
+                                <Label alignment="CENTER" layoutX="150.0" layoutY="367.0" text="C.P. 86000 Telefono (644) 410 8383" textAlignment="CENTER" />
+                                <Label alignment="CENTER" layoutX="187.0" layoutY="384.0" text="Cd. Obregon, Sonora" textAlignment="CENTER" />
+                                <Label alignment="CENTER" layoutX="180.0" layoutY="401.0" text="www.oomapasc.gob.mx" textAlignment="CENTER" />
+                                <Label alignment="CENTER" layoutX="166.0" layoutY="418.0" text="atencion@oomapasc.gob.mx" textAlignment="CENTER" />
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </ScrollPane>
+                    <ImageView fx:id="imgLogoVentana" fitHeight="51.0" fitWidth="151.0" layoutX="241.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                            <Image url="@../../res/logo.png" />
+                        </image>
+                    </ImageView>
             </children>
         </Pane>
     </children>

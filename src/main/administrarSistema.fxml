@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
@@ -43,16 +44,16 @@
                                 <Font name="System Bold" size="16.0" />
                             </font>
                         </Button>
-                  <Button fx:id="btnCerrarSesion" alignment="CENTER" layoutX="16.0" layoutY="656.0" mnemonicParsing="false" onAction="#didClickCerrarSesionButton" style="-fx-background-color: WHITE; -fx-background-radius: 2em;" text="Cerrar Sesión" textAlignment="CENTER" textFill="#0078d7" wrapText="true">
-                     <font>
-                        <Font name="System Bold" size="16.0" />
-                     </font>
-                  </Button>
-                  <Label fx:id="txtEmpleado" alignment="BOTTOM_CENTER" layoutX="19.0" layoutY="502.0" prefHeight="141.0" prefWidth="116.0" textAlignment="CENTER" textFill="WHITE" wrapText="true">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
+                        <Button fx:id="btnCerrarSesion" alignment="CENTER" layoutX="16.0" layoutY="656.0" mnemonicParsing="false" onAction="#didClickCerrarSesionButton" style="-fx-background-color: WHITE; -fx-background-radius: 2em;" text="Cerrar Sesión" textAlignment="CENTER" textFill="#0078d7" wrapText="true">
+                            <font>
+                                <Font name="System Bold" size="16.0" />
+                            </font>
+                        </Button>
+                        <Label fx:id="txtEmpleado" alignment="BOTTOM_CENTER" layoutX="19.0" layoutY="502.0" prefHeight="141.0" prefWidth="116.0" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                            <font>
+                                <Font size="18.0" />
+                            </font>
+                        </Label>
                     </children>
                 </AnchorPane>
                 <Label alignment="CENTER" layoutX="470.0" layoutY="14.0" text="Turnero OOMAPAS" textAlignment="CENTER">
@@ -72,6 +73,11 @@
                     </font>
                 </Label>
                 <BorderPane fx:id="panContenido" layoutX="192.0" layoutY="68.0" prefHeight="542.0" prefWidth="864.0" />
+                  <ImageView fx:id="imgLogo" fitHeight="51.0" fitWidth="151.0" layoutX="261.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
+                      <image>
+                          <Image url="@../../res/logo.png" />
+                      </image>
+                  </ImageView>
             </children>
         </Pane>
     </children>

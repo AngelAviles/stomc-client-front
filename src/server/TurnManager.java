@@ -1,8 +1,10 @@
 package server;
 
 import control.ControlTurn;
+import dominio.Employee;
 import dominio.Message;
 import dominio.Turn;
+import main.TurneroController;
 
 import java.util.*;
 
@@ -10,6 +12,8 @@ import java.util.*;
 public class TurnManager {
 
     private static final ControlTurn controlTurn = new ControlTurn();
+
+    static TurneroController turneroController;
 
     static int cajaTurnNumberFloor = 0;
     static int moduloTurnNumberFloor = 0;
@@ -24,6 +28,26 @@ public class TurnManager {
     static List<Turn> genericTurnList = new ArrayList<Turn>();
 
     private static final Map<String, Message.MessageType> messageMap = new HashMap<String, Message.MessageType>();
+
+    public static TurneroController getTurneroController() {
+        return turneroController;
+    }
+
+    public static void setTurneroController(TurneroController turneroController) {
+        TurnManager.turneroController = turneroController;
+    }
+
+    public static List<Turn> getCajaTurnList() {
+        return cajaTurnList;
+    }
+
+    public static List<Turn> getModuloTurnList() {
+        return moduloTurnList;
+    }
+
+    public static List<Turn> getGenericTurnList() {
+        return genericTurnList;
+    }
 
     public Message handleRequest(Message message) {
 
@@ -267,10 +291,13 @@ public class TurnManager {
 
     public static Message cajaCallNextTurn(Message message){
         if (!cajaTurnList.isEmpty()) {
+            Employee empleado = (Employee) message.getObject();
+
             Turn nextTurn = cajaTurnList.get(0);
 
             nextTurn.setStatus("Atendiendo");
             nextTurn.setDateTimeAssigned(new Date());
+            nextTurn.setIdEmployee(empleado);
 
             System.out.println("TurnManager Next turn is: " + nextTurn.toString());
 
@@ -281,6 +308,8 @@ public class TurnManager {
             }
 
             currentCajaTurnNumber = nextTurn.getTurnNumber();
+
+            getTurneroController().siguienteTurnoCaja(currentCajaTurnNumber, empleado.getIdAttentionPoint().getPoint());
 
             cajaTurnList.remove(0);
 
@@ -299,10 +328,14 @@ public class TurnManager {
 
     public static Message moduloCallNextTurn(Message message){
         if (!moduloTurnList.isEmpty()) {
+
+            Employee empleado = (Employee) message.getObject();
+
             Turn temp = moduloTurnList.get(0);
 
             temp.setStatus("Atendiendo");
             temp.setDateTimeAssigned(new Date());
+            temp.setIdEmployee(empleado);
 
             try {
                 controlTurn.edit(temp);
@@ -311,6 +344,8 @@ public class TurnManager {
             }
 
             currentModuloTurnNumber = temp.getTurnNumber();
+
+            getTurneroController().siguienteTurnoModulo(currentModuloTurnNumber, empleado.getIdAttentionPoint().getPoint());
 
             moduloTurnList.remove(0);
 
@@ -330,10 +365,13 @@ public class TurnManager {
 
     public static Message genericCallNextTurn(Message message){
         if (!genericTurnList.isEmpty()) {
+            Employee empleado = (Employee) message.getObject();
+
             Turn temp = genericTurnList.get(0);
 
             temp.setStatus("Atendiendo");
             temp.setDateTimeAssigned(new Date());
+            temp.setIdEmployee(empleado);
 
             try {
                 controlTurn.edit(temp);
@@ -342,6 +380,8 @@ public class TurnManager {
             }
 
             currentGenericTurnNumber = temp.getTurnNumber();
+
+            getTurneroController().siguienteTurnoCajaModulo(currentGenericTurnNumber, empleado.getIdAttentionPoint().getPoint());
 
             genericTurnList.remove(0);
 

@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -19,8 +20,9 @@ public class Main extends Application {
         Parent root = loader.load();
 
         iniciarSesionController = loader.getController();
-        primaryStage.setTitle("STOMC - Inicio Sesión");
+        primaryStage.setTitle("STOMC Client - Inicio Sesión");
         primaryStage.setScene(new Scene(root, 1060, 700));
+        primaryStage.getIcons().add(new Image(getClass().getClassLoader().getResourceAsStream("logo.png")));
         primaryStage.setOnCloseRequest(windowEvent -> System.exit(0));
         primaryStage.show();
 

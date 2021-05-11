@@ -41,6 +41,8 @@ public class MenuInformacionTramitesController implements IController {
     @FXML
     public TableColumn colFolioInformacionTramites;
     @FXML
+    public TableColumn colTituloInformacionTramites;
+    @FXML
     public TableColumn<LysingInformation, String> colProcesoInformacionTramites;
 
     public void initialize(){
@@ -53,6 +55,16 @@ public class MenuInformacionTramitesController implements IController {
             public ObservableValue<String> call(TableColumn.CellDataFeatures<LysingInformation, String> cellDataFeatures) {
                 if (cellDataFeatures.getValue().getFolio() != null) {
                     return new SimpleStringProperty(cellDataFeatures.getValue().getFolio().toString());
+                }
+                return new SimpleStringProperty("");
+            }
+        });
+
+        colTituloInformacionTramites.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<LysingInformation, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<LysingInformation, String> cellDataFeatures) {
+                if (cellDataFeatures.getValue().getTitle() != null) {
+                    return new SimpleStringProperty(cellDataFeatures.getValue().getTitle());
                 }
                 return new SimpleStringProperty("");
             }
