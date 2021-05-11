@@ -66,7 +66,7 @@
                         <Font name="System Bold" size="30.0" />
                     </font>
                 </Button>
-                <Button fx:id="preguntasFrecuentesButton" alignment="CENTER" layoutX="232.0" layoutY="475.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="312.0" style="-fx-background-color: #0078D7; -fx-background-radius: 2em;" text="Preguntas frecuentes" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                <Button fx:id="preguntasFrecuentesButton" alignment="CENTER" layoutX="232.0" layoutY="475.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="312.0" style="-fx-background-color: #0078D7; -fx-background-radius: 2em;" text="Requisitos de Trámites" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                     <font>
                         <Font name="System Bold" size="23.0" />
                     </font>

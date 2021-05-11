@@ -22,7 +22,7 @@
     <jar href="mssql-jdbc-9.2.1.jre8.jar" size="1327629" download="eager" />
     <jar href="negocioStomc.jar" size="128688" download="eager" />
     <jar href="org.eclipse.persistence.jpa.jpql_2.5.2.v20140319-9ad6abd.jar" size="1366247" download="eager" />
-    <jar href="stomc_client_front.jar" size="33692872" download="eager" />
+    <jar href="stomc_client_front.jar" size="33692882" download="eager" />
   </resources>
   <jfx:javafx-desc  width="600" height="400" main-class="main.Main"  name="stomc-client-front" />
   <update check="background"/>
