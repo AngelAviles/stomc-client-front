@@ -33,6 +33,8 @@ public class AccionSucursalController implements IController {
 
     @FXML
     public TextField txtNombre;
+    @FXML
+    public TextArea txtDireccion;
 
     @FXML
     public Button btnAceptar;
@@ -52,6 +54,7 @@ public class AccionSucursalController implements IController {
                 btnAceptar.setText("Editar");
 
                 txtNombre.setText(branch.getBranchName());
+                txtDireccion.setText(branch.getAddress());
 
                 break;
         }
@@ -101,6 +104,7 @@ public class AccionSucursalController implements IController {
         CatalogueBranch catalogueBranch = this.branch;
 
         catalogueBranch.setBranchName(txtNombre.getText());
+        catalogueBranch.setAddress(txtDireccion.getText());
 
         Message msg = new Message(Message.MessageType.EDIT_CATALOGUE_BRANCH, "test_user");
         msg.setObject(catalogueBranch);
@@ -116,6 +120,7 @@ public class AccionSucursalController implements IController {
         CatalogueBranch catalogueBranch = new CatalogueBranch();
 
         catalogueBranch.setBranchName(txtNombre.getText());
+        catalogueBranch.setAddress(txtDireccion.getText());
 
         Message msg = new Message(Message.MessageType.ADD_CATALOGUE_BRANCH, "test_user");
         msg.setObject(catalogueBranch);
@@ -157,6 +162,10 @@ public class AccionSucursalController implements IController {
 
         if (txtNombre.getText().isEmpty()) {
             txtNombre.setStyle("-fx-border-color: red");
+            respuesta = true;
+        }
+        if (txtDireccion.getText().isEmpty()) {
+            txtDireccion.setStyle("-fx-border-color: red");
             respuesta = true;
         }
 

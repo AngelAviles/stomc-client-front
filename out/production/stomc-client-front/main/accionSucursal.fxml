@@ -11,12 +11,12 @@
                <Font name="System Bold" size="36.0" />
            </font>
        </Label>
-      <Label layoutX="211.0" layoutY="258.0" text="Nombre:">
+      <Label layoutX="215.0" layoutY="167.0" text="Nombre:">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="txtNombre" layoutX="290.0" layoutY="252.0" onMousePressed="#resetField" prefHeight="39.0" prefWidth="364.0">
+      <TextField fx:id="txtNombre" layoutX="294.0" layoutY="161.0" onMousePressed="#resetField" prefHeight="39.0" prefWidth="364.0" promptText="Ingresé el nombre de la sucursal">
          <font>
             <Font size="18.0" />
          </font>
@@ -31,5 +31,15 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Button>
+      <Label layoutX="206.0" layoutY="214.0" text="Dirección:">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <TextArea fx:id="txtDireccion" layoutX="294.0" layoutY="208.0" onMousePressed="#resetField" prefHeight="173.0" prefWidth="364.0" promptText="Ingresé la dirección de la sucursal" wrapText="true">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </TextArea>
    </children>
 </AnchorPane>

@@ -4,6 +4,7 @@ import control.ControlTurn;
 import dominio.Employee;
 import dominio.Message;
 import dominio.Turn;
+import main.ClientFrontController;
 import main.TurneroController;
 
 import java.util.*;
@@ -11,21 +12,21 @@ import java.util.*;
 
 public class TurnManager {
 
+    private static String separador = "\\s*-\\s*";
+
     private static final ControlTurn controlTurn = new ControlTurn();
 
     static TurneroController turneroController;
+    static ClientFrontController clientFrontController;
 
     static int cajaTurnNumberFloor = 0;
     static int moduloTurnNumberFloor = 0;
-    static int genericTurnNumberFloor = 0;
 
     static int currentCajaTurnNumber = cajaTurnNumberFloor;
     static int currentModuloTurnNumber = moduloTurnNumberFloor;
-    static int currentGenericTurnNumber = genericTurnNumberFloor;
 
     static List<Turn> cajaTurnList = new ArrayList<Turn>();
     static List<Turn> moduloTurnList = new ArrayList<Turn>();
-    static List<Turn> genericTurnList = new ArrayList<Turn>();
 
     private static final Map<String, Message.MessageType> messageMap = new HashMap<String, Message.MessageType>();
 
@@ -37,6 +38,14 @@ public class TurnManager {
         TurnManager.turneroController = turneroController;
     }
 
+    public static ClientFrontController getClientFrontController() {
+        return clientFrontController;
+    }
+
+    public static void setClientFrontController(ClientFrontController clientFrontController) {
+        TurnManager.clientFrontController = clientFrontController;
+    }
+
     public static List<Turn> getCajaTurnList() {
         return cajaTurnList;
     }
@@ -45,8 +54,20 @@ public class TurnManager {
         return moduloTurnList;
     }
 
-    public static List<Turn> getGenericTurnList() {
-        return genericTurnList;
+    public static int getCajaTurnNumberFloor() {
+        return cajaTurnNumberFloor;
+    }
+
+    public static int getModuloTurnNumberFloor() {
+        return moduloTurnNumberFloor;
+    }
+
+    public static int getCurrentCajaTurnNumber() {
+        return currentCajaTurnNumber;
+    }
+
+    public static int getCurrentModuloTurnNumber() {
+        return currentModuloTurnNumber;
     }
 
     public Message handleRequest(Message message) {
@@ -65,8 +86,6 @@ public class TurnManager {
                 return cajaCallNextTurn(message);
             case CALL_NEXT_MODULO:
                 return moduloCallNextTurn(message);
-            case CALL_NEXT_GENERIC:
-                return genericCallNextTurn(message);
             case RELEASE_TURN:
                 return releaseTurn(message);
 //            case GET_TURNS_STATUS:
@@ -216,6 +235,8 @@ public class TurnManager {
 
     public static Message createNewCajaTurn(Message message){
         Turn newCajaTurn = new Turn();
+        Employee empleado = (Employee) message.getObject();
+        newCajaTurn.setIdEmployee(empleado);
         newCajaTurn.setTurnNumber(cajaTurnNumberFloor + 1);
 
         newCajaTurn.setType(Turn.Type.CAJA);
@@ -236,11 +257,15 @@ public class TurnManager {
 
         message.setObject(newCajaTurn);
 
+        clientFrontController.updateTurns();
+
         return message;
     }
 
     public static Message createNewModuloTurn(Message message){
         Turn newModuloTurn = new Turn();
+        Employee empleado = (Employee) message.getObject();
+        newModuloTurn.setIdEmployee(empleado);
         newModuloTurn.setTurnNumber(moduloTurnNumberFloor + 1);
 
         newModuloTurn.setType(Turn.Type.MODULO);
@@ -261,10 +286,12 @@ public class TurnManager {
 
         message.setObject(newModuloTurn);
 
+        clientFrontController.updateTurns();
+
         return message;
     }
 
-    public static Message createNewGenericTurn(Message message){
+    /*public static Message createNewGenericTurn(Message message){
         Turn newGenericTurn = new Turn();
         newGenericTurn.setTurnNumber(genericTurnNumberFloor + 1);
 
@@ -287,7 +314,7 @@ public class TurnManager {
         message.setObject(newGenericTurn);
 
         return message;
-    }
+    }*/
 
     public static Message cajaCallNextTurn(Message message){
         if (!cajaTurnList.isEmpty()) {
@@ -309,7 +336,16 @@ public class TurnManager {
 
             currentCajaTurnNumber = nextTurn.getTurnNumber();
 
-            getTurneroController().siguienteTurnoCaja(currentCajaTurnNumber, empleado.getIdAttentionPoint().getPoint());
+            switch (empleado.getIdAttentionPoint().getPoint().split(separador)[0]) {
+                case "Caja/Módulo":
+                case "Caja/Modulo":
+                    getTurneroController().siguienteTurnoCajaModulo("C", currentCajaTurnNumber, empleado.getIdAttentionPoint().getPoint());
+                    break;
+                default:
+                    getTurneroController().siguienteTurnoCaja(currentCajaTurnNumber, empleado.getIdAttentionPoint().getPoint());
+                    break;
+            }
+
 
             cajaTurnList.remove(0);
 
@@ -317,12 +353,17 @@ public class TurnManager {
 
             System.out.println("TurnManager Remaining Caja turns: " + cajaTurnList.size());
 
+            clientFrontController.updateTurns();
+
             return message;
         } else {
             System.out.println("TurnManager No remaining Turns in Caja");
         }
 
         message.setObject(null);
+
+        clientFrontController.updateTurns();
+
         return message;
     }
 
@@ -345,13 +386,23 @@ public class TurnManager {
 
             currentModuloTurnNumber = temp.getTurnNumber();
 
-            getTurneroController().siguienteTurnoModulo(currentModuloTurnNumber, empleado.getIdAttentionPoint().getPoint());
+            switch (empleado.getIdAttentionPoint().getPoint().split(separador)[0]) {
+                case "Caja/Módulo":
+                case "Caja/Modulo":
+                    getTurneroController().siguienteTurnoCajaModulo("M", currentModuloTurnNumber, empleado.getIdAttentionPoint().getPoint());
+                    break;
+                default:
+                    getTurneroController().siguienteTurnoModulo(currentModuloTurnNumber, empleado.getIdAttentionPoint().getPoint());
+                    break;
+            }
 
             moduloTurnList.remove(0);
 
             message.setObject(temp);
 
             System.out.println("TurnManager Remaining Modulo turns: " + moduloTurnList.size());
+
+            clientFrontController.updateTurns();
 
             return message;
         } else {
@@ -360,10 +411,12 @@ public class TurnManager {
 
         message.setObject(null);
 
+        clientFrontController.updateTurns();
+
         return message;
     }
 
-    public static Message genericCallNextTurn(Message message){
+    /*public static Message genericCallNextTurn(Message message){
         if (!genericTurnList.isEmpty()) {
             Employee empleado = (Employee) message.getObject();
 
@@ -397,7 +450,7 @@ public class TurnManager {
         message.setObject(null);
 
         return message;
-    }
+    }*/
 
     public static Message releaseTurn(Message message){
 
@@ -435,10 +488,10 @@ public class TurnManager {
                 //TODO: logic modulo
                 moduloTurnList.add(0, turn);
                 break;
-            case GENERIC:
+            /*case GENERIC:
                 //TODO: logic generic
                 genericTurnList.add(0, turn);
-                break;
+                break;*/
             default: throw new IllegalStateException("Unexpected value: " + turn.getType());
         }
     }

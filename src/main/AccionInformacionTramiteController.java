@@ -198,7 +198,7 @@ public class AccionInformacionTramiteController implements IController {
                     Platform.runLater(new Runnable() {
                         @Override
                         public void run() {
-                            makeToast("El trámite ha sido creado correctamente");
+                            makeToast("El trámite ha sido editado correctamente");
                             cargarMenuInformacionTramites();
                         }
                     });

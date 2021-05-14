@@ -2,6 +2,7 @@ package main;
 
 import comm.Conexion;
 import dominio.CatalogueBranch;
+import dominio.LysingInformation;
 import dominio.Message;
 import gui_elements.Toast;
 import javafx.application.Platform;
@@ -15,6 +16,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 import javafx.util.Callback;
 
 import java.io.IOException;
@@ -41,6 +43,8 @@ public class MenuSucursalesController implements IController {
     public TableColumn colFolioCatalagoSucursales;
     @FXML
     public TableColumn colNombreCatalagoSucursales;
+    @FXML
+    public TableColumn colDireccion;
 
     public void initialize(){
         System.out.println("MenuSucursalesController did initialize");
@@ -66,6 +70,28 @@ public class MenuSucursalesController implements IController {
                 return new SimpleStringProperty("");
             }
         });
+
+        colDireccion.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<CatalogueBranch, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<CatalogueBranch, String> cellDataFeatures) {
+                if (cellDataFeatures.getValue().getAddress() != null) {
+                    return new SimpleStringProperty(cellDataFeatures.getValue().getAddress());
+                }
+                return new SimpleStringProperty("");
+            }
+        });
+
+        // Wrap text en la columna de los procesos.
+        colDireccion.setCellFactory(tc -> {
+            TableCell<LysingInformation, String> cell = new TableCell<>();
+            Text text = new Text();
+            cell.setGraphic(text);
+            cell.setPrefHeight(Control.USE_COMPUTED_SIZE);
+            text.wrappingWidthProperty().bind(colDireccion.widthProperty());
+            text.textProperty().bind(cell.itemProperty());
+            return cell ;
+        });
+
 
         try {
             Conexion.getInstance().sendMessage(new Message(Message.MessageType.GET_MANY_CATALOGUE_BRANCH, "test_user"));

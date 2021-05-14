@@ -16,7 +16,7 @@
     <children>
         <Pane prefHeight="699.0" prefWidth="1056.0" style="-fx-background-color: #FFFFFF;">
             <children>
-                <Button fx:id="newTurnCajaButton" layoutX="232.0" layoutY="226.0" mnemonicParsing="false" onAction="#didClickNewTurnCajaButton" prefHeight="65.0" prefWidth="154.0" style="-fx-background-color: #0078D7; -fx-background-radius: 2em;" text="Caja" textFill="WHITE">
+                <Button fx:id="newTurnCajaButton" layoutX="232.0" layoutY="226.0" mnemonicParsing="false" onAction="#didClickNewTurnCajaButton" prefHeight="65.0" prefWidth="312.0" style="-fx-background-color: #0078D7; -fx-background-radius: 2em;" text="Caja" textFill="WHITE">
                     <font>
                         <Font name="System Bold" size="30.0" />
                     </font>
@@ -38,6 +38,64 @@
                             <Font size="18.0" />
                         </font>
                     </Label>
+               <AnchorPane layoutX="5.0" layoutY="14.0" prefHeight="123.0" prefWidth="145.0" style="-fx-background-color: #0078D7; -fx-border-color: white; -fx-border-width: 2;">
+                  <children>
+                     <Label alignment="CENTER" layoutX="23.0" layoutY="14.0" text="Turnos Caja" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                        <font>
+                           <Font name="System Bold" size="18.0" />
+                        </font>
+                     </Label>
+                     <Label alignment="CENTER" layoutX="14.0" layoutY="52.0" text="Turnos Total:" textAlignment="CENTER" textFill="WHITE" underline="true" wrapText="true">
+                        <font>
+                           <Font name="System Bold" size="14.0" />
+                        </font>
+                     </Label>
+                     <Label fx:id="txtTurnosTotalCaja" alignment="CENTER" layoutX="101.0" layoutY="52.0" prefHeight="20.0" prefWidth="32.0" text="0" textAlignment="CENTER" textFill="WHITE">
+                        <font>
+                           <Font name="System Bold" size="14.0" />
+                        </font>
+                     </Label>
+                     <Label alignment="CENTER" layoutX="14.0" layoutY="78.0" text="Turno Actual:" textAlignment="CENTER" textFill="WHITE" underline="true" wrapText="true">
+                        <font>
+                           <Font name="System Bold" size="14.0" />
+                        </font>
+                     </Label>
+                     <Label fx:id="txtTurnoActualCaja" alignment="CENTER" layoutX="101.0" layoutY="78.0" prefHeight="20.0" prefWidth="32.0" text="0" textAlignment="CENTER" textFill="WHITE">
+                        <font>
+                           <Font name="System Bold" size="14.0" />
+                        </font>
+                     </Label>
+                  </children>
+               </AnchorPane>
+               <AnchorPane layoutX="5.0" layoutY="152.0" prefHeight="123.0" prefWidth="145.0" style="-fx-background-color: #0078D7; -fx-border-color: white; -fx-border-width: 2;">
+                  <children>
+                     <Label alignment="CENTER" layoutX="8.0" layoutY="14.0" text="Turnos Módulo" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                        <font>
+                           <Font name="System Bold" size="18.0" />
+                        </font>
+                     </Label>
+                     <Label alignment="CENTER" layoutX="14.0" layoutY="52.0" text="Turnos Total:" textAlignment="CENTER" textFill="WHITE" underline="true" wrapText="true">
+                        <font>
+                           <Font name="System Bold" size="14.0" />
+                        </font>
+                     </Label>
+                     <Label fx:id="txtTurnosTotalModulo" alignment="CENTER" layoutX="101.0" layoutY="52.0" prefHeight="20.0" prefWidth="32.0" text="0" textAlignment="CENTER" textFill="WHITE">
+                        <font>
+                           <Font name="System Bold" size="14.0" />
+                        </font>
+                     </Label>
+                     <Label alignment="CENTER" layoutX="14.0" layoutY="78.0" text="Turno Actual:" textAlignment="CENTER" textFill="WHITE" underline="true" wrapText="true">
+                        <font>
+                           <Font name="System Bold" size="14.0" />
+                        </font>
+                     </Label>
+                     <Label fx:id="txtTurnoActualModulo" alignment="CENTER" layoutX="101.0" layoutY="78.0" prefHeight="20.0" prefWidth="32.0" text="0" textAlignment="CENTER" textFill="WHITE">
+                        <font>
+                           <Font name="System Bold" size="14.0" />
+                        </font>
+                     </Label>
+                  </children>
+               </AnchorPane>
                 </AnchorPane>
                 <Label alignment="CENTER" layoutX="327.0" layoutY="15.0" prefHeight="70.0" prefWidth="593.0" text="Turnero OOMAPAS" textAlignment="CENTER">
                     <font>
@@ -56,17 +114,12 @@
                         <Font size="24.0" />
                     </font>
                 </Label>
-                <Button fx:id="newTurnModuloButton" layoutX="391.0" layoutY="226.0" mnemonicParsing="false" onAction="#didClickNewTurnModuloButton" prefHeight="65.0" prefWidth="154.0" style="-fx-background-color: #0078D7; -fx-background-radius: 2em;" text="Módulo" textFill="WHITE" wrapText="true">
+                <Button fx:id="newTurnModuloButton" layoutX="232.0" layoutY="304.0" mnemonicParsing="false" onAction="#didClickNewTurnModuloButton" prefHeight="65.0" prefWidth="312.0" style="-fx-background-color: #0078D7; -fx-background-radius: 2em;" text="Módulo" textFill="WHITE" wrapText="true">
                     <font>
                         <Font name="System Bold" size="30.0" />
                     </font>
                 </Button>
-                <Button fx:id="newTurnCajaModuloButton" alignment="CENTER" layoutX="232.0" layoutY="306.0" mnemonicParsing="false" onAction="#didClickNewTurnCajaModuloButton" prefHeight="65.0" prefWidth="312.0" style="-fx-background-color: #0078D7; -fx-background-radius: 2em;" text="Caja/Módulo" textAlignment="CENTER" textFill="WHITE">
-                    <font>
-                        <Font name="System Bold" size="30.0" />
-                    </font>
-                </Button>
-                <Button fx:id="preguntasFrecuentesButton" alignment="CENTER" layoutX="232.0" layoutY="475.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="312.0" style="-fx-background-color: #0078D7; -fx-background-radius: 2em;" text="Requisitos de Trámites" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                <Button fx:id="preguntasFrecuentesButton" alignment="CENTER" layoutX="232.0" layoutY="475.0" mnemonicParsing="false" onAction="#didClickRequisitosButton" prefHeight="65.0" prefWidth="312.0" style="-fx-background-color: #0078D7; -fx-background-radius: 2em;" text="Requisitos de Trámites" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                     <font>
                         <Font name="System Bold" size="23.0" />
                     </font>

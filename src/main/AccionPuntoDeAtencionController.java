@@ -24,7 +24,6 @@ import java.util.List;
 public class AccionPuntoDeAtencionController implements IController {
     private String accion;
     private CatalogueAttentionPoint attentionPoint;
-    private static String separador = "\\s*-\\s*";
     private static List<String> tipos = new ArrayList<String>() {
         {
             add("Caja");
@@ -53,6 +52,7 @@ public class AccionPuntoDeAtencionController implements IController {
     public void setAccion(String accion) {
         this.accion = accion;
 
+        String separador = "\\s*-\\s*";
         switch (accion) {
             case "Añadir":
                 lblPuntoDeAtencionAccion.setText("Añadir Punto de Atención");
@@ -247,7 +247,7 @@ public class AccionPuntoDeAtencionController implements IController {
                     Platform.runLater(new Runnable() {
                         @Override
                         public void run() {
-                            makeToast("El punto de atención ha sido creado correctamente");
+                            makeToast("El punto de atención ha sido editado correctamente");
                             cargarMenuPuntoDeAtencion();
                         }
                     });

@@ -13,8 +13,8 @@
         </Label>
         <TableView fx:id="tblEmpleados" layoutX="14.0" layoutY="76.0" prefHeight="399.0" prefWidth="835.0">
             <columns>
-                <TableColumn fx:id="colFolioEmpleado" editable="false" prefWidth="75.0" text="Folio" />
-                <TableColumn fx:id="colNoEmpleado" editable="false" prefWidth="75.0" text="No°" />
+                <TableColumn fx:id="colFolioEmpleado" editable="false" maxWidth="2000.0" prefWidth="75.0" text="Folio" />
+                <TableColumn fx:id="colNoEmpleado" editable="false" maxWidth="2000.0" prefWidth="75.0" text="No°" />
                 <TableColumn fx:id="colNombreEmpleado" editable="false" prefWidth="75.0" text="Nombre" />
             <TableColumn fx:id="colDireccionEmpleado" prefWidth="75.0" text="Dirección" />
                 <TableColumn fx:id="colDepartamentoEmpleado" editable="false" prefWidth="75.0" text="Departamento" />

@@ -2,6 +2,7 @@ package main;
 
 import comm.Conexion;
 import dominio.Employee;
+import dominio.LysingInformation;
 import dominio.Message;
 import dominio.Turn;
 import gui_elements.Toast;
@@ -9,6 +10,8 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,6 +26,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -33,8 +37,9 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
-public class ClientFrontController implements IController{
+public class ClientFrontController implements IController {
 
     static Server server = new Server();
 
@@ -61,8 +66,6 @@ public class ClientFrontController implements IController{
     @FXML
     public Button newTurnModuloButton;
     @FXML
-    public Button newTurnCajaModuloButton;
-    @FXML
     public Button preguntasFrecuentesButton;
 
     @FXML
@@ -83,6 +86,15 @@ public class ClientFrontController implements IController{
     public ImageView imgLogoVentana;
     @FXML
     public Label lblTurnosAdelante;
+
+    @FXML
+    public Label txtTurnosTotalCaja;
+    @FXML
+    public Label txtTurnoActualCaja;
+    @FXML
+    public Label txtTurnosTotalModulo;
+    @FXML
+    public Label txtTurnoActualModulo;
 
     public Turn getTurn() {
         return turn;
@@ -106,14 +118,15 @@ public class ClientFrontController implements IController{
 
     public void setTurneroController(TurneroController turneroController) {
         this.turneroController = turneroController;
-        this.turnManager.setTurneroController(turneroController);
+        TurnManager.setTurneroController(turneroController);
+        TurnManager.setClientFrontController(this);
     }
 
     public Employee getEmpleado() {
         return empleado;
     }
 
-    public void initialize(){
+    public void initialize() {
         System.out.println("HomeController did initialize");
 
         Conexion.getInstance().setController(this);
@@ -140,14 +153,15 @@ public class ClientFrontController implements IController{
     }
 
     @FXML
-    public void didClickNewTurnCajaButton(){
+    public void didClickNewTurnCajaButton() {
         System.out.println("Nuevo Turno Caja Button Clicked");
         Message msg = new Message(Message.MessageType.NEW_TURN_CAJA, "test_user");
-        msg = turnManager.createNewCajaTurn(msg);
+        msg.setObject(empleado);
+        msg = TurnManager.createNewCajaTurn(msg);
 
-        setTurn( (Turn)msg.getObject() );
+        setTurn((Turn) msg.getObject());
         updateCreatedTurnLabelWithText();
-        makeToast("Turno " + ( (Turn)msg.getObject() ).getType().toString() + " creado exitosamente.");
+        makeToast("Turno " + ((Turn) msg.getObject()).getType().toString() + " creado exitosamente.");
         try {
             Conexion.getInstance().sendMessage(msg);
         } catch (IOException e) {
@@ -157,14 +171,15 @@ public class ClientFrontController implements IController{
     }
 
     @FXML
-    public void didClickNewTurnModuloButton(){
+    public void didClickNewTurnModuloButton() {
         System.out.println("Nuevo Turno Modulo Button Clicked");
         Message msg = new Message(Message.MessageType.NEW_TURN_MODULO, "test_user");
-        msg = turnManager.createNewModuloTurn(msg);
+        msg.setObject(empleado);
+        msg = TurnManager.createNewModuloTurn(msg);
 
-        setTurn( (Turn)msg.getObject() );
+        setTurn((Turn) msg.getObject());
         updateCreatedTurnLabelWithText();
-        makeToast("Turno " + ( (Turn)msg.getObject() ).getType().toString() + " creado exitosamente.");
+        makeToast("Turno " + ((Turn) msg.getObject()).getType().toString() + " creado exitosamente.");
         try {
             Conexion.getInstance().sendMessage(msg);
         } catch (IOException e) {
@@ -173,7 +188,7 @@ public class ClientFrontController implements IController{
         }
     }
 
-    @FXML
+    /*@FXML
     public void didClickNewTurnCajaModuloButton(){
         System.out.println("Nuevo Turno Caja/Modulo Button Clicked");
         Message msg = new Message(Message.MessageType.NEW_TURN_GENERIC, "test_user");
@@ -188,7 +203,7 @@ public class ClientFrontController implements IController{
             System.out.println("Could not connect to server.");
             makeToast("EL TURNO " + Turn.Type.GENERIC.toString() + " NO HA SIDO CREADO.");
         }
-    }
+    }*/
 
     @FXML
     public void didClickImprimirButton(ActionEvent actionEvent) {
@@ -217,7 +232,7 @@ public class ClientFrontController implements IController{
     }
 
     public void makeToast(String mensaje) {
-        Toast.makeText(null, mensaje, 3500,100,300);
+        Toast.makeText(null, mensaje, 3500, 100, 300);
     }
 
     @Override
@@ -225,7 +240,7 @@ public class ClientFrontController implements IController{
         switch (message.getType()) {
             case NEW_TURN_CAJA:
             case NEW_TURN_MODULO:
-            case NEW_TURN_GENERIC:
+//            case NEW_TURN_GENERIC:
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
@@ -234,7 +249,49 @@ public class ClientFrontController implements IController{
 //                        makeToast("Turno " + ( (Turn)message.getObject() ).getType().toString() + " creado exitosamente.");
                     }
                 });
+                break;
+
+            case GET_MANY_LYSING_INFORMATION:
+
+                List<LysingInformation> lista = (List<LysingInformation>) message.getObject();
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            FXMLLoader loaderTurnero = new FXMLLoader(getClass().getResource("requisitos.fxml"));
+                            Pane ventanaDos = null;
+
+                            ventanaDos = (Pane) loaderTurnero.load();
+
+                            Stage ventanaTurnero = new Stage();
+                            ventanaTurnero.setTitle("Requisitos de tramites");
+
+                            Scene sceneTurnero = new Scene(ventanaDos);
+                            ventanaTurnero.setScene(sceneTurnero);
+
+                            RequisitosController requisitosController = loaderTurnero.getController();
+                            requisitosController.setLysingInformations(lista);
+
+                            ventanaTurnero.show();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                break;
         }
+    }
+
+    public void updateTurns() {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                txtTurnosTotalCaja.setText(TurnManager.getCajaTurnNumberFloor() + "");
+                txtTurnoActualCaja.setText(TurnManager.getCurrentCajaTurnNumber() + "");
+                txtTurnosTotalModulo.setText(TurnManager.getModuloTurnNumberFloor() + "");
+                txtTurnoActualModulo.setText(TurnManager.getCurrentModuloTurnNumber() + "");
+            }
+        });
     }
 
     public void updateCreatedTurnLabelWithText() {
@@ -245,18 +302,18 @@ public class ClientFrontController implements IController{
             case CAJA:
                 letra = "C";
                 tipo = "CAJAS";
-                lblTurnosAdelante.setText("Turnos adelante: " + turnManager.getCajaTurnList().size());
+                lblTurnosAdelante.setText("Turnos adelante: " + TurnManager.getCajaTurnList().size());
                 break;
             case MODULO:
                 letra = "M";
                 tipo = "MODULOS";
-                lblTurnosAdelante.setText("Turnos adelante: " + turnManager.getModuloTurnList().size());
+                lblTurnosAdelante.setText("Turnos adelante: " + TurnManager.getModuloTurnList().size());
                 break;
-            case GENERIC:
+            /*case GENERIC:
                 letra = "G";
                 tipo = "CAJA/MODULO";
                 lblTurnosAdelante.setText("Turnos adelante: " + turnManager.getGenericTurnList().size());
-                break;
+                break;*/
         }
 
         txtTurnoCreado.setText(letra + getTurn().getTurnNumber());
@@ -287,8 +344,16 @@ public class ClientFrontController implements IController{
             appStage.setTitle("STOMC Client");
             appStage.setOnCloseRequest(windowEvent -> System.exit(0));
             appStage.show();
-        } catch(IOException e) {
+        } catch (IOException e) {
             makeToast("Error al cerrar Sesión.");
+        }
+    }
+
+    public void didClickRequisitosButton(ActionEvent actionEvent) {
+        try {
+            Conexion.getInstance().sendMessage(new Message(Message.MessageType.GET_MANY_LYSING_INFORMATION, "test_user"));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

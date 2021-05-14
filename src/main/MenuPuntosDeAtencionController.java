@@ -45,8 +45,6 @@ public class MenuPuntosDeAtencionController implements IController {
     @FXML
     public TableColumn colPuntoPuntoDeAtencion;
     @FXML
-    public TableColumn colDisponibilidadPuntoDeAtencion;
-    @FXML
     public TableColumn colEmpleadoPuntoDeAtencion;
     @FXML
     public TableColumn colSucursalPuntoDeAtencion;
@@ -80,16 +78,6 @@ public class MenuPuntosDeAtencionController implements IController {
                     return new SimpleStringProperty(cellDataFeatures.getValue().getPoint());
                 }
                 return new SimpleStringProperty("");
-            }
-        });
-
-        colDisponibilidadPuntoDeAtencion.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<AttentionPoint, String>, ObservableValue<String>>() {
-            @Override
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<AttentionPoint, String> cellDataFeatures) {
-                if (cellDataFeatures.getValue().getEmployee() != null) {
-                    return new SimpleStringProperty("Ocupado");
-                }
-                return new SimpleStringProperty("Disponible");
             }
         });
 

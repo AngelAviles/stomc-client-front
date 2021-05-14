@@ -1,8 +1,8 @@
 package main;
 
 import comm.Conexion;
-import dominio.Turn;
 import dominio.Message;
+import dominio.Turn;
 import gui_elements.Toast;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
@@ -14,6 +14,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
+import reportes.ControllerReport;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -25,7 +26,9 @@ import java.util.List;
 
 public class MenuTurnosController implements IController {
 
-    private static List<String> estados = new ArrayList<String>() {
+    private static List<Turn> turnos;
+
+    private static final List<String> estados = new ArrayList<String>() {
         {
             add("Todos");
             add("Esperando");
@@ -45,6 +48,8 @@ public class MenuTurnosController implements IController {
     @FXML
     public TableView<Turn> tblTurnos;
 
+    @FXML
+    public TableColumn colSucursal;
     @FXML
     public TableColumn colFecha;
     @FXML
@@ -74,6 +79,18 @@ public class MenuTurnosController implements IController {
 
         Conexion.getInstance().setController(this);
 
+        colSucursal.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Turn, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Turn, String> cellDataFeatures) {
+                if (cellDataFeatures.getValue().getIdEmployee() != null) {
+                    if (cellDataFeatures.getValue().getIdEmployee().getIdBranch() != null) {
+                        return new SimpleStringProperty(cellDataFeatures.getValue().getIdEmployee().getIdBranch().getBranchName());
+                    }
+                }
+                return new SimpleStringProperty("-");
+            }
+        });
+
         colFecha.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Turn, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<Turn, String> cellDataFeatures) {
@@ -88,7 +105,7 @@ public class MenuTurnosController implements IController {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<Turn, String> cellDataFeatures) {
                 if (cellDataFeatures.getValue().getDateTimeCreated() != null) {
-                    return new SimpleStringProperty(new SimpleDateFormat("H:mm").format(cellDataFeatures.getValue().getDateTimeCreated()));
+                    return new SimpleStringProperty(new SimpleDateFormat("hh:mm a").format(cellDataFeatures.getValue().getDateTimeCreated()));
                 }
                 return new SimpleStringProperty("-");
             }
@@ -101,10 +118,7 @@ public class MenuTurnosController implements IController {
 
                     long millies = cellDataFeatures.getValue().getDateTimeAssigned().getTime() - cellDataFeatures.getValue().getDateTimeCreated().getTime();
 
-                    long minutes = (millies / 1000) / 60;
-                    long seconds = (millies / 1000) % 60;
-
-                    return new SimpleStringProperty(minutes + ":" + seconds);
+                    return new SimpleStringProperty(new SimpleDateFormat("mm:ss").format(new Date(millies)));
                 }
                 return new SimpleStringProperty("-");
             }
@@ -116,10 +130,7 @@ public class MenuTurnosController implements IController {
                 if (cellDataFeatures.getValue().getDateTimeFinished() != null) {
                     long millies = cellDataFeatures.getValue().getDateTimeFinished().getTime() - cellDataFeatures.getValue().getDateTimeAssigned().getTime();
 
-                    long minutes = (millies / 1000) / 60;
-                    long seconds = (millies / 1000) % 60;
-
-                    return new SimpleStringProperty(minutes + ":" + seconds);
+                    return new SimpleStringProperty(new SimpleDateFormat("mm:ss").format(new Date(millies)));
                 }
                 return new SimpleStringProperty("-");
             }
@@ -203,7 +214,6 @@ public class MenuTurnosController implements IController {
 
     @FXML
     public void didClickConsultarButton(ActionEvent actionEvent) {
-        ZoneId defaultZoneId = ZoneId.systemDefault();
 
         Date fechaInicio = null;
         Date fechaFin = null;
@@ -282,7 +292,9 @@ public class MenuTurnosController implements IController {
 
     @FXML
     public void didClickGenerarReporteButton(ActionEvent actionEvent) {
-
+        if (turnos != null) {
+            new ControllerReport().generarReporte(turnos);
+        }
     }
 
     public void makeToast(String mensaje) {
@@ -300,6 +312,7 @@ public class MenuTurnosController implements IController {
             case GET_TURNS_START_AND_END_DATE:
             case GET_TURNS_STATUS_START_AND_END_DATE:
             case GET_MANY_TURN:
+                turnos = (List<Turn>) message.getObject();
                 ObservableList<Turn> lista = FXCollections.observableList((List<Turn>) message.getObject());
                 Platform.runLater(new Runnable() {
                     @Override

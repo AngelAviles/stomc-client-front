@@ -77,11 +77,11 @@ public class TurneroController {
         });
     }
 
-    public void siguienteTurnoCajaModulo(int turno, String puntoDeAtencion) {
+    public void siguienteTurnoCajaModulo(String tipo, int turno, String puntoDeAtencion) {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                lblCajaModuloTurno.setText("G" + turno);
+                lblCajaModuloTurno.setText(tipo + turno);
                 lblCajaModulo.setText(puntoDeAtencion.split(separador)[1]);
             }
         });

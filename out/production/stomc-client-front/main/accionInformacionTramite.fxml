@@ -16,12 +16,12 @@
                 <Font size="18.0" />
             </font>
         </Label>
-        <TextField fx:id="txtTitulo" layoutX="187.0" layoutY="109.0" onMousePressed="#resetField" prefHeight="39.0" prefWidth="566.0">
+        <TextField fx:id="txtTitulo" layoutX="187.0" layoutY="109.0" onMousePressed="#resetField" prefHeight="39.0" prefWidth="566.0" promptText="Ingresé el título del trámite">
             <font>
                 <Font size="18.0" />
             </font>
         </TextField>
-        <TextArea fx:id="txtProceso" layoutX="187.0" layoutY="166.0" onMousePressed="#resetField" prefHeight="263.0" prefWidth="566.0" promptText="Ingrese la información del tramite." wrapText="true">
+        <TextArea fx:id="txtProceso" layoutX="187.0" layoutY="166.0" onMousePressed="#resetField" prefHeight="263.0" prefWidth="566.0" promptText="Ingresé la información del tramite" wrapText="true">
             <font>
                 <Font size="18.0" />
             </font>
